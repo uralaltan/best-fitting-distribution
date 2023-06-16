@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@stdlib/stats-chi2gof": "^0.0.8",
+    "mathjs": "^11.8.0"    
+  }
+}
