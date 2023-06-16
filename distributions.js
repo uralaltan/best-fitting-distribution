@@ -1,46 +1,64 @@
 const Math = require("mathjs");
 
-// ###########################################
-// CALCULATE CHI SQUARE
-// TEST
-// ###########################################
-
+// Calculate Chi Square
 const calculateChiSquare = (observed, expected) => {
   let chiSquare = 0;
-  for (let i = 0; i < observed.length; i++) {
-    chiSquare += Math.pow(observed[i] - expected[i], 2) / expected[i];
-  }
-  return chiSquare;
-}
-
-const fitDistribution = (data, distribution) => {
-const observedCounts = new Array(distribution.length).fill(0);
-
-// Count observed occurrences in data
-for (let i = 0; i < data.length; i++) {
-  for (let j = 0; j < distribution.length; j++) {
-    if (data[i] === distribution[j]) {
-      observedCounts[j]++;
-      break;
+    for (let i = 0; i < observed.length; i++) {
+      chiSquare += Math.pow(observed[i] - expected[i], 2) / expected[i];
     }
-  }
+    return chiSquare;
 }
 
-const expectedCounts = new Array(distribution.length).fill(data.length / distribution.length);
+// Calculate Ranks of Distributions
+const chiSquareGoodnessOfFit = (observed, expected) => {
+  const numCategories = observed.length;
+  const distributionNames = Object.keys(expected);
+  const numDistributions = distributionNames.length;
 
-const chiSquare = calculateChiSquare(observedCounts, expectedCounts);
+  // Calculate the total observed frequency
+  const totalObserved = observed.reduce((sum, value) => sum + value, 0);
 
-return chiSquare;
+  // Calculate the degrees of freedom
+  const df = numCategories - 1;
 
+  // Calculate the scores and ranks
+  const scores = distributionNames.map((distributionName) => {
+    const distributionData = expected[distributionName];
+
+    // Calculate the expected frequencies based on the distribution
+    const expectedFreq = distributionData.map((prob) => prob * totalObserved);
+
+    // Calculate the chi-square test statistic
+    const score = observed.reduce((sum, value, categoryIndex) => {
+      const expected = expectedFreq[categoryIndex];
+      const difference = value - expected;
+      return sum + (difference * difference) / expected;
+    }, 0);
+
+    return { distributionName, score };
+  });
+
+  // Sort the scores in ascending order
+  scores.sort((a, b) => a.score - b.score);
+
+  // Assign ranks to the distributions
+  const ranks = scores.map((score, index) => {
+    const rank = index + 1;
+    return { ...score, rank };
+  });
+
+  // Prepare the result object
+  const result = {};
+  ranks.forEach((rank) => {
+    const { distributionName, score, rank: distributionRank } = rank;
+    result[distributionName] = { score, rank: distributionRank };
+  });
+
+  return result;
 }
 
-// ###########################################
-// CALCULATE DISTRIBUTIONS
-// TEST
-// ###########################################
-
+// Calculate Distributions
 const convertToNormalDistribution = (data) => {
-  
   const mean = data.reduce((a, b) => a + b, 0) / data.length;
   const variance = data.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / data.length;
   const stdDev = Math.sqrt(variance);
@@ -54,7 +72,7 @@ const convertToNormalDistribution = (data) => {
   return normalData;
 };
 
-const convertToBinomialDistribution = (data, probability) => {
+const convertToBinomialDistribution = (data, probability=0.5) => {
   trials = data.length;
   const binomialCoefficient = (n, k) => {
     const dp = Array.from(Array(n + 1), () => Array(k + 1).fill(0));
@@ -63,7 +81,8 @@ const convertToBinomialDistribution = (data, probability) => {
       for (let j = 0; j <= Math.min(i, k); j++) {
         if (j === 0 || j === i) {
           dp[i][j] = 1;
-        } else {
+        } 
+        else {
           dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
         }
       }
@@ -85,7 +104,7 @@ const convertToBinomialDistribution = (data, probability) => {
 const convertToPoissonDistribution = (data) => {
   const factorial = (n) => (n === 0 ? 1 : n * factorial(n - 1));
 
-  const lambdas = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0];
+  const lambdas = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.25, 4.5, 4.75, 5.0];
   let bestLambda = null;
   let lowestChiSquare = Infinity;
   let bestExpected = null;
@@ -103,12 +122,12 @@ const convertToPoissonDistribution = (data) => {
       bestExpected = expected;
     }
   }
-
+  console.log("Poisson Distribution Best Lambda: ", bestLambda);
   return bestExpected;
 };
 
 const convertToExponentialDistribution = (data) => {
-  const lambdas = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0];
+  const lambdas = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75, 3.0, 3.25, 3.5, 3.75, 4.0, 4.25, 4.5, 4.75, 5.0];
   let bestLambda = null;
   let lowestChiSquare = Infinity;
   let bestExpected = null;
@@ -126,13 +145,13 @@ const convertToExponentialDistribution = (data) => {
       bestExpected = expected;
     }
   }
-
+  console.log("Exponential Distribution Best Lambda: ", bestLambda);
   return bestExpected;
 };
 
 const convertToGammaDistribution = (data) => {
-  const alphas = [1, 2, 3, 4, 5];
-  const betas = [0.1, 0.2, 0.3, 0.4, 0.5];
+  const alphas = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+  const betas = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0];
   let bestAlpha = null;
   let bestBeta = null;
   let lowestChiSquare = Infinity;
@@ -144,7 +163,7 @@ const convertToGammaDistribution = (data) => {
         if (n === 1) {
           return 1;
         } else if (n === 0.5) {
-          return Math.sqrt(Math.PI);
+          return Math.sqrt(Math.pi);
         } else {
           return (n - 1) * gammaFunction(n - 1);
         }
@@ -167,11 +186,11 @@ const convertToGammaDistribution = (data) => {
       }
     }
   }
-
+  console.log("Gamma Distribution Best Alpha: ", bestAlpha, "Best Beta: ", bestBeta);
   return bestExpected;
 };
 
-const convertToLogDistribution = (data, probability) => {
+const convertToLogDistribution = (data, probability=0.5) => {
   return data.map((x) => {
     if (x === 1) {
       return -Math.log(1 - probability);
@@ -182,38 +201,26 @@ const convertToLogDistribution = (data, probability) => {
 };
 
 const convertToLogNormalDistribution = (data) => {
-  const mus = [0, 1, 2];
-  const sigmas = [0.1, 0.2, 0.3];
-  let bestMu = null;
-  let bestSigma = null;
-  let lowestChiSquare = Infinity;
-  let bestExpected = null;
+  const logData = data.map((x) => Math.log(x));
+  const meanLog = logData.reduce((acc, val) => acc + val, 0) / logData.length;
+  const stdDevLog = Math.sqrt(
+    logData.reduce((acc, val) => acc + Math.pow(val - meanLog, 2), 0) / logData.length
+  );
+  const mu = meanLog;
+  const sigma = stdDevLog;
 
-  for (let mu of mus) {
-    for (let sigma of sigmas) {
-      const expected = data.map((x) => {
-        const exponent = -Math.pow(Math.log(x) - mu, 2) / (2 * Math.pow(sigma, 2));
-        const coefficient = 1 / (x * sigma * Math.sqrt(2 * Math.pi));
-        return coefficient * Math.exp(exponent);
-      });
+  const expected = data.map((x) => {
+    const exponent = -Math.pow(Math.log(x) - mu, 2) / (2 * Math.pow(sigma, 2));
+    const coefficient = 1 / (x * sigma * Math.sqrt(2 * Math.pi));
+    return coefficient * Math.exp(exponent);
+  });
 
-      const chiSquare = calculateChiSquare(data, expected);
-
-      if (chiSquare < lowestChiSquare) {
-        lowestChiSquare = chiSquare;
-        bestMu = mu;
-        bestSigma = sigma;
-        bestExpected = expected;
-      }
-    }
-  }
-
-  return bestExpected;
+  return expected;
 };
 
 const convertToBetaDistribution = (data) => {
-  const alphas = [2, 3, 4];
-  const betas = [0.5, 1, 2];
+  const alphas = [1, 2, 3, 4, 5];
+  const betas = [0.5, 1, 1.5, 2, 2.5];
   let bestAlpha = null;
   let bestBeta = null;
   let lowestChiSquare = Infinity;
@@ -258,7 +265,7 @@ const convertToBetaDistribution = (data) => {
       }
     }
   }
-
+  console.log("Beta Distribution Best Alpha: ", bestAlpha, "Best Beta: ", bestBeta);
   return bestExpected;
 };
 
@@ -338,7 +345,7 @@ const convertToDirichletDistribution = (data) => {
 };
 
 
-const data = [1, 2, 3, 4, 5];
+const data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const data2 = [
   [0.2, 0.3, 0.5],
   [0.4, 0.4, 0.2],
@@ -352,6 +359,7 @@ const data2 = [
   [0.1, 0.6, 0.6],
 ];
 
+/*
 const normalData = convertToNormalDistribution(data);
 console.log("Normal Distribution:", normalData);
 
@@ -381,54 +389,20 @@ console.log("Negative Binomial Distribution:", negativeBinomialData);
 
 const dirichletData = convertToDirichletDistribution(data2);
 console.log("Dirichlet Distribution:", dirichletData);
+*/
 
+const distributions = {
+  "Normal Distribution": convertToNormalDistribution(data),
+  "Binomial Distribution": convertToBinomialDistribution(data, probability=0.5),
+  "Poisson Distribution": convertToPoissonDistribution(data),
+  "Exponential Distribution": convertToExponentialDistribution(data),
+  "Gamma Distribution": convertToGammaDistribution(data),
+  "Log Distribution": convertToLogDistribution(data, probability=0.5),
+  "Log Normal Distribution": convertToLogNormalDistribution(data),
+  "Beta Distribution": convertToBetaDistribution(data),
+  "Negative Binomial Distribution": convertToNegativeBinomialDistribution(data, successesRequired=3, probabilityOfSuccess=0.5)
+};
 
-const distributions = [
-  convertToNormalDistribution(data),
-  convertToBinomialDistribution(data, probability=0.5),
-  convertToPoissonDistribution(data),
-  convertToExponentialDistribution(data),
-  convertToGammaDistribution(data),
-  convertToLogDistribution(data, probability=0.5),
-  convertToLogNormalDistribution(data),
-  convertToBetaDistribution(data),
-  convertToNegativeBinomialDistribution(data, successesRequired=3, probabilityOfSuccess=0.5),
-  convertToDirichletDistribution(data2),
-];
+ranks = chiSquareGoodnessOfFit(data, distributions);
 
-const numberOfTests = 1000;
-let chiSquareResults = {};
-
-for (let i = 0; i < numberOfTests; i++) {
-  let bestFitIndex = -1;
-  let bestFitChiSquare = Infinity;
-
-  for (let j = 0; j < distributions.length; j++) {
-    const chiSquare = fitDistribution(data, distributions[j]);
-
-    if (chiSquare < bestFitChiSquare) {
-      bestFitChiSquare = chiSquare;
-      bestFitIndex = j;
-    }
-  }
-
-  if (bestFitIndex !== -1) {
-    if (!chiSquareResults[bestFitIndex]) {
-      chiSquareResults[bestFitIndex] = 0;
-    }
-    chiSquareResults[bestFitIndex]++;
-  }
-}
-
-let mostFrequentIndex = -1;
-let mostFrequentCount = -Infinity;
-
-for (const index in chiSquareResults) {
-  const count = chiSquareResults[index];
-  if (count > mostFrequentCount) {
-    mostFrequentCount = count;
-    mostFrequentIndex = index;
-  }
-}
-
-console.log(`Most frequent best fitted distribution index: ${mostFrequentIndex}`);
+console.log(ranks);
