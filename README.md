@@ -77,12 +77,11 @@ Output format: 1d array ( [\
   106.80973832002266,\
   145.5226917849383,\
   735.7109869470279,\
-  
-  ## Finding the closest distribution of a dataset
-  With the data, compare it to all distributions using some statistical measure such as sum of least squares, Kolgorov?
-  Determine the distribution that best fits the data and provide a ranked list of the goodness of fit of all distributions.
-  
   417.0416969474759,\
   238.46697285100873,\
   256.7192776643844\
 ] )\
+  
+## Finding the closest distribution of a dataset
+With the data, compare it to all distributions using some statistical measure such as sum of least squares, Kolgorov?
+Determine the distribution that best fits the data and provide a ranked list of the goodness of fit of all distributions.
