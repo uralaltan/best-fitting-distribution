@@ -9,7 +9,7 @@ After calculating mean and standard deviation data is passed individually to the
 
 Example of how to write the formular directly:
 
-y = $\frac{1}{\sigma\sqrt[n]{2\pi}}$e^$\frac{(x-y)^2}{2\sigma^2}
+y = \frac{1}{\sigma \sqrt{2\pi}} e^{\frac{-(x-\mu)^2}{2\sigma^2}}
 
 
 Input format: 1d array ( [23, 15, 36, 17, 86] )\
