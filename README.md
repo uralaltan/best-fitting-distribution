@@ -5,7 +5,7 @@ Documentation of Distribution Calculations
 Data Distributions
 
 •	Normal Distribution: This distribution is calculated by simply passing the data to the normal distribution formula.
-After calculating mean and standard deviation. Datas from dataset is passed individually to the function and calculated. Formula is shown below.\
+After calculating mean and standard deviation data is passed individually to the function and calculated. Formula is shown below.\
 ![image](https://github.com/uralaltan/Data-Distributions/assets/112475938/7ccea6a2-ba12-4024-9067-19340e5ba623)
 
 Input format: 1d array ( [23, 15, 36, 17, 86] )\
