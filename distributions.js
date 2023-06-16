@@ -10,7 +10,21 @@ const calculateChiSquare = (observed, expected) => {
 }
 
 // Calculate Ranks of Distributions
-const chiSquareGoodnessOfFit = (observed, expected) => {
+const chiSquareGoodnessOfFit = (observed) => {
+
+  const distributions = {
+    "Normal Distribution": convertToNormalDistribution(data),
+    "Binomial Distribution": convertToBinomialDistribution(data, probability=0.5),
+    "Poisson Distribution": convertToPoissonDistribution(data),
+    "Exponential Distribution": convertToExponentialDistribution(data),
+    "Gamma Distribution": convertToGammaDistribution(data),
+    "Log Distribution": convertToLogDistribution(data, probability=0.5),
+    "Log Normal Distribution": convertToLogNormalDistribution(data),
+    "Beta Distribution": convertToBetaDistribution(data),
+    "Negative Binomial Distribution": convertToNegativeBinomialDistribution(data, successesRequired=3, probabilityOfSuccess=0.5)
+  };
+  
+  const expected = distributions;
   const numCategories = observed.length;
   const distributionNames = Object.keys(expected);
   const numDistributions = distributionNames.length;
@@ -403,6 +417,6 @@ const distributions = {
   "Negative Binomial Distribution": convertToNegativeBinomialDistribution(data, successesRequired=3, probabilityOfSuccess=0.5)
 };
 
-ranks = chiSquareGoodnessOfFit(data, distributions);
+ranks = chiSquareGoodnessOfFit(data);
 
-console.log(ranks);
+module.exports = { chiSquareGoodnessOfFit };
