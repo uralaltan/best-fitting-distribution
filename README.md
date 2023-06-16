@@ -10,6 +10,7 @@ After calculating mean and standard deviation data is passed individually to the
 Example of how to write the formular directly:
 
 $$
+\large
 y = \frac{1}{\sigma \sqrt{2\pi}} e^{\frac{-(x-\mu)^2}{2\sigma^2}}
 $$
 
