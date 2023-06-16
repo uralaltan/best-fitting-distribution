@@ -5,17 +5,20 @@ Documentation of Distribution Calculations
 Data Distributions
 
 •	Normal Distribution: This distribution is calculated by simply passing the data to the normal distribution formula.
-After calculating mean and standard deviation. Datas from dataset is passed individually to the function and calculated. 
-Input format: 1d array ( [23, 15, 36, 17, 86] )
+After calculating mean and standard deviation. Datas from dataset is passed individually to the function and calculated. Formula is shown below.\
+![image](https://github.com/uralaltan/Data-Distributions/assets/112475938/7ccea6a2-ba12-4024-9067-19340e5ba623)
+
+Input format: 1d array ( [23, 15, 36, 17, 86] )\
 Output format: 1d array ( [0.01355,0.01122, 0.01514,0.01186,0.00239] )
 
 •	Binomial distribution: This distribution is calculated with parameters data and probability.
- For each individual data x in dataset where n=Number of Trials = data.length the formula is calculated.
-Input format: 1d array ( [0, 3, 1, 2,] )
+ For each individual data x in dataset where n=Number of Trials = data.length the formula is calculated. Formula is shown below.\
+ ![image](https://github.com/uralaltan/Data-Distributions/assets/112475938/7e57c7e2-db3e-44c0-9194-92cb252e7626)\
+Input format: 1d array ( [0, 3, 1, 2,] )\
 Output format: 1d array ( [ 0.0625, 0.25, 0.25, 0.375 ] )
 
-•	Poisson Distribution: This distribution has a parameter lambda. Inside the function this parameter has pre-defined values (1d-array ex: [0.25, 0.5, …, 2.5, 2.75, 3.0]). Then the distribution is calculated for each lambda parameter for chi-square test. After all lambda values are calculated best lambda value is selected. And that distribution is returned.
-Input format: 1d array ( [23, 15, 36, 17, 86] )
+•	Poisson Distribution: This distribution has a parameter lambda. Inside the function this parameter has pre-defined values (1d-array ex: [0.25, 0.5, …, 2.5, 2.75, 3.0]). Then the distribution is calculated for each lambda parameter for chi-square test. After all lambda values are calculated best lambda value is selected. And that distribution is returned.\
+Input format: 1d array ( [23, 15, 36, 17, 86] )\
 Output format: 1d array ( [1.813e-13, 5.463e-7,  2.008e-26, 1.807e-8, 2.214e-91] )
 
 •	Exponential Distribution: This distribution has a parameter lambda. Lambda value is calculated the same way in poisson distribution. After that the best distribution is returned.
@@ -62,5 +65,4 @@ Output format: 1d array ( [
   417.0416969474759,
   238.46697285100873,
   256.7192776643844
-] ) 
- 
+] )
