@@ -26,9 +26,10 @@ $$
 P(x) = \frac{n!}{\(n-x)! x!} p^x q^{n-x}
 $$
 
-Where n = number of trials\
-x = number of successes desired\
-p = probability of getting success in one trial\
+Where;\
+n = number of trials,\
+x = number of successes desired,\
+p = probability of getting success in one trial,\
 q = 1 - p = probability of getting a failure in one trial
 
 Input format: 1d array ( [0, 3, 1, 2,] ) where each data represents number of successes desired.\
