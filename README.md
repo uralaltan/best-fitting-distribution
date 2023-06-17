@@ -18,10 +18,20 @@ Input format: 1d array ( [23, 15, 36, 17, 86] )\
 Output format: 1d array ( [0.01355,0.01122, 0.01514,0.01186,0.00239] )
 
 ### Binomial distribution
-This distribution is calculated with parameters data and probability.
-For each individual data x in dataset where n=Number of Trials = data.length the formula is calculated. Formula is shown below.\
-![image](https://github.com/uralaltan/Data-Distributions/assets/112475938/7e57c7e2-db3e-44c0-9194-92cb252e7626)\
-Input format: 1d array ( [0, 3, 1, 2,] )\
+This distribution is calculated with parameters num of trials and probability of success.
+For each individual data x in dataset output y is calculated with the below formula.
+
+$$
+\large
+P(x) = \frac{n!}{\(n-x)! x!} p^x q^{n-x}
+$$
+
+Where n = number of trials\
+x = number of successes desired\
+p = probability of getting success in one trial\
+q = 1 - p = probability of getting a failure in one trial
+
+Input format: 1d array ( [0, 3, 1, 2,] ) where each data represents number of successes desired.\
 Output format: 1d array ( [ 0.0625, 0.25, 0.25, 0.375 ] )
 
 ###	Poisson Distribution
