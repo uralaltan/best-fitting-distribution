@@ -1,17 +1,12 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class BinomialDistribution {
-    constructor(numTrials, successProbability=0.5) {
-        this.trials = numTrials;
-        this.probability = successProbability;
-        this.binomialCoefficient = this.calculateBinomialCoefficient();
-    }
-
-    calculateBinomialCoefficient() {
-        const n = this.trials;
-        const k = Math.max(this.trials, 1);
+class BinomialDistribution extends Distribution {
+    calculateBinomialCoefficient(numTrials) {
+        const n = numTrials;
+        const k = Math.max(numTrials, 1);
         const dp = Array.from(Array(n + 1), () => Array(k + 1).fill(0));
-    
+
         for (let i = 0; i <= n; i++) {
             for (let j = 0; j <= Math.min(i, k); j++) {
                 if (j === 0 || j === i) {
@@ -21,26 +16,54 @@ class BinomialDistribution {
                 }
             }
         }
-    
+
         return dp;
     }
 
     convertToBinomialDistribution(data) {
-        const probabilities = data.map(k => {
-            const coefficient = this.binomialCoefficient[this.trials][k];
-            const q = 1 - this.probability;
-            const binomialProbability = coefficient * Math.pow(this.probability, k) * Math.pow(q, this.trials - k);
-            return binomialProbability;
-        });
-        return probabilities;
+        const trials = [10, 100, 1000];
+        const probabilities = [0.3, 0.5, 0.7, 0.9];
+
+        let bestError = Number.MAX_VALUE;
+        let bestFittedData = null;
+
+        for (let i = 0; i < trials.length; i++) {
+            for (let j = 0; j < probabilities.length; j++) {
+                const numTrials = trials[i];
+                const successProbability = probabilities[j];
+                const binomialCoefficient = this.calculateBinomialCoefficient(numTrials);
+
+                const fittedData = data.map(k => {
+                    const coefficient = binomialCoefficient[numTrials][k];
+                    const q = 1 - successProbability;
+                    const binomialProbability = coefficient * Math.pow(successProbability, k) * Math.pow(q, numTrials - k);
+                    return binomialProbability;
+                });
+
+                const error = this.calculateChiSquareError(data, fittedData);
+                if (error < bestError) {
+                    bestError = error;
+                    bestFittedData = fittedData;
+                }
+            }
+        }
+        return bestFittedData;
     }
 
-    generateData(numDataPoints) {
+    calculateChiSquareError(data, fittedData) {
+        let error = 0;
+        for (let i = 0; i < data.length; i++) {
+            error += Math.pow(data[i] - fittedData[i], 2) / fittedData[i];
+        }
+        return error;
+    }
+
+    generateData(numDataPoints, numTrials, successProbability) {
         const data = [];
         for (let i = 0; i < numDataPoints; i++) {
             let successes = 0;
-            for (let j = 0; j < this.trials; j++) {
-                if (Math.random() < this.probability) {
+            for (let j = 0; j < numTrials; j++) {
+                if (Math.random() < successProbability) {
                     successes++;
                 }
             }
@@ -52,9 +75,9 @@ class BinomialDistribution {
 
 /*
 
-const binomialDistribution = new BinomialDistribution(numTrials=10, successProbability=0.5);
+const binomialDistribution = new BinomialDistribution();
 
-const generatedData = binomialDistribution.generateData(1000);
+const generatedData = binomialDistribution.generateData(1000, 100, 0.5);
 const convertedData = binomialDistribution.convertToBinomialDistribution(generatedData);
 
 console.log(generatedData);

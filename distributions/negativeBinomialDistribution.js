@@ -1,12 +1,8 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class NegativeBinomialDistribution {
-    constructor(successesRequired, probabilityOfSuccess=0.5) {
-        this.successes = successesRequired;
-        this.probability = probabilityOfSuccess;
-    }
-
-    convertToNegativeBinomialDistribution(data) {
+class NegativeBinomialDistribution extends Distribution {
+    convertToNegativeBinomialDistribution(data, successesRequired, probabilityOfSuccess) {
         const binomialCoefficient = (n, k) => {
             let coefficient = 1;
             for (let i = 0; i < k; i++) {
@@ -14,30 +10,30 @@ class NegativeBinomialDistribution {
             }
             return coefficient;
         };
-    
+
         const expected = data.map((x) => {
             const probability =
-            Math.pow(this.probability, this.successes) * Math.pow(1 - this.probability, x - this.successes);
-            const coefficient = binomialCoefficient(x - 1, this.successes - 1);
+                Math.pow(probabilityOfSuccess, successesRequired) * Math.pow(1 - probabilityOfSuccess, x - successesRequired);
+            const coefficient = binomialCoefficient(x - 1, successesRequired - 1);
             return coefficient * probability;
         });
         return expected;
     }
 
-    generateData(size) {
+    generateData(size, successesRequired, probabilityOfSuccess) {
         let data = [];
         for (let i = 0; i < size; i++) {
             let count = 0;
             let trials = 0;
-        
-            while (count < this.successes) {
+
+            while (count < successesRequired) {
                 let random = Math.random();
-                if (random < this.probability) {
+                if (random < probabilityOfSuccess) {
                     count++;
                 }
-                    trials++;
+                trials++;
             }
-            data.push(trials - this.successes);
+            data.push(trials - successesRequired);
         }
         return data;
     }
@@ -45,10 +41,10 @@ class NegativeBinomialDistribution {
 
 /*
 
-const negativeBinomialDistribution = new NegativeBinomialDistribution(successesRequired=5, probabilityOfSuccess=0.5);
+const negativeBinomialDistribution = new NegativeBinomialDistribution();
 
-const generatedData = negativeBinomialDistribution.generateData(size=50);
-const convertedData = negativeBinomialDistribution.convertToNegativeBinomialDistribution(generatedData);
+const generatedData = negativeBinomialDistribution.generateData(size=50, successesRequired=5, probabilityOfSuccess=0.5);
+const convertedData = negativeBinomialDistribution.convertToNegativeBinomialDistribution(generatedData, 5, 0.5);
 
 console.log(generatedData);
 console.log(convertedData);
