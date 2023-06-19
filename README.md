@@ -1,7 +1,7 @@
 # Data-Distributions
 Documentation of Distribution Calculations
 
-## Creating Data Distributions
+## Output Format
 
 Output Format: \
 {\
@@ -17,6 +17,8 @@ Output Format: \
 &emsp;    'Poisson Distribution': { score: NaN, rank: 9 }\
 &ensp;  }\
 }
+
+## Creating Data Distributions
 
 ### Normal Distribution
 This distribution is calculated by simply passing the data to the normal distribution formula.
