@@ -2,6 +2,22 @@
 Documentation of Distribution Calculations
 
 ## Creating Data Distributions
+
+Output Format: 
+{
+  ranks: {
+    'Beta Distribution': { score: 1212360.6470518184, rank: 1 },
+    'Log Normal Distribution': { score: 1794878.1155931458, rank: 2 },
+    'Exponential Distribution': { score: 2379766632004.0483, rank: 3 },
+    'Gamma Distribution': { score: 50122440982254.77, rank: 4 },
+    'Log Distribution': { score: 75547544586738700, rank: 5 },
+    'Negative Binomial Distribution': { score: 3.991394686442268e+24, rank: 6 },
+    'Normal Distribution': { score: 1.730372499284969e+62, rank: 7 },
+    'Binomial Distribution': { score: NaN, rank: 8 },
+    'Poisson Distribution': { score: NaN, rank: 9 }
+  }
+}
+
 ### Normal Distribution
 This distribution is calculated by simply passing the data to the normal distribution formula.
 After calculating mean and standard deviation data is passed individually to the function and calculated. Formula is shown below.\
