@@ -33,7 +33,7 @@ y = \frac{1}{\sigma \sqrt{2\pi}} e^{\frac{-(x-\mu)^2}{2\sigma^2}}
 $$
 
 Input format: 1d array ( [23, 15, 36, 17, 86] )\
-Output format: 1d array ( [0.01355,0.01122, 0.01514,0.01186,0.00239] )
+Output format: 1d array ( [0.01355, 0.01122, 0.01514, 0.01186, 0.00239] )
 
 ### Binomial distribution
 This distribution is calculated with parameters num of trials and probability of success.
