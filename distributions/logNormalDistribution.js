@@ -1,6 +1,7 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class LogNormalDistribution {
+class LogNormalDistribution extends Distribution {
     convertToLogNormalDistribution(data) {
         const logData = data.map((x) => Math.log(x));
         const meanLog = logData.reduce((acc, val) => acc + val, 0) / logData.length;

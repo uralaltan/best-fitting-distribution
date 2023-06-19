@@ -1,6 +1,7 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class LogDistribution {
+class LogDistribution extends Distribution {
     convertToLogDistribution = (data, probability = 0.5) => {
         return data.map((x) => {
             if (x === 1) {

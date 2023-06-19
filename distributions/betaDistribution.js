@@ -1,6 +1,7 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class BetaDistribution {
+class BetaDistribution extends Distribution {
     convertToBetaDistribution(data) {
         const alphas = [1, 2, 3, 4, 5];
         const betas = [0.5, 1, 1.5, 2, 2.5];

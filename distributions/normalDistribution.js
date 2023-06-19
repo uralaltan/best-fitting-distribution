@@ -1,6 +1,7 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class NormalDistribution {
+class NormalDistribution extends Distribution {
     convertToNormalDistribution(data) {
         const mean = data.reduce((a, b) => a + b, 0) / data.length;
         const variance = data.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / data.length;

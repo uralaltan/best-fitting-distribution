@@ -1,6 +1,7 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class PoissonDistribution {
+class PoissonDistribution extends Distribution {
     convertToPoissonDistribution(data) {
         const factorial = (n) => (n === 0 ? 1 : n * factorial(n - 1));
     

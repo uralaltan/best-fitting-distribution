@@ -1,6 +1,7 @@
 const Math = require("mathjs");
+const Distribution = require('../distribution.js');
 
-class GammaDistribution {
+class GammaDistribution extends Distribution {
     convertToGammaDistribution(data) {
         const shape = [1, 2, 3, 4, 5];
         const scale = [0.5, 1.0, 1.5, 2.0, 2.5];
