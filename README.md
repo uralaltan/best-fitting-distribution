@@ -121,3 +121,5 @@ Output format: 1d array ( [\
 ## Finding the closest distribution of a dataset
 With the data, compare it to all distributions using some statistical measure such as sum of least squares, Kolgorov?
 Determine the distribution that best fits the data and provide a ranked list of the goodness of fit of all distributions.
+
+## Examples
