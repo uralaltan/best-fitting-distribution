@@ -5,7 +5,8 @@ class ExponentialDistribution extends Distribution {
     // Needs a double-check!
     convert(data) {
 
-        const lambda = data.reduce((a, b) => a + b, 0) / data.length; // calculates mean of data
+        const mean = data.reduce((a, b) => a + b, 0) / data.length; // calculates mean of data
+        const lambda = 1 / mean;
 
         const convertedData = data.map((value) => lambda * Math.exp(-lambda * value));
 
