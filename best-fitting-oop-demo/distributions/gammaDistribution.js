@@ -1,11 +1,36 @@
 const Math = require("mathjs");
+const jstat = require('jstat');
 const Distribution = require('../distribution.js');
 
 class GammaDistribution extends Distribution {
     
-    // TODO
     convert(data) {
-        
+
+        /* 
+         * This transformation generates gamma distributed data based on
+         * the mean and variance of the data.
+         * Data can possibly lose some meaning by doing this transformation.
+         * But in the end we get a perfect gamma distributed data.
+         */
+
+        const mean = jstat.mean(data);
+        const variance = jstat.variance(data);
+
+        const alpha = Math.pow(mean, 2) / variance;
+        const beta = mean / variance;
+
+        const shape = alpha;
+        const scale = 1 / beta;
+
+        // This is used to minimize the loss of information from the data.
+        const quantiles = data.map((value) => jstat.normal.inv(value / (data.length + 1)));
+
+        const convertedData = quantiles.map((quantile) => {
+            const standardSample = jstat.gamma.sample(shape, scale);
+            return jstat.gamma.inv(quantile, shape, scale);
+        });
+
+        return convertedData;
     }
   
     // Marsaglia and Tsang method
@@ -53,5 +78,15 @@ class GammaDistribution extends Distribution {
         return result;
     }
 }
+
+/*
+const gammaDistribution = new GammaDistribution();
+
+const trainData = gammaDistribution.generateData(3, 0.2, 10);
+const convertedData = gammaDistribution.convert(trainData);
+
+console.log(convertedData);
+
+*/
 
 module.exports = GammaDistribution;
