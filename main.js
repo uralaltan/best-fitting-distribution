@@ -1,5 +1,5 @@
 // Chi Square Test
-const ChiSquare = require('./chiSquareTest.js');
+const ChiSquare = require('./ChiSquare.js');
 
 // Distributions
 const NormalDistribution = require('./distributions/normalDistribution.js');
@@ -11,6 +11,7 @@ const LogDistribution = require('./distributions/logDistribution.js');
 const LogNormalDistribution = require('./distributions/logNormalDistribution.js');
 const BetaDistribution = require('./distributions/betaDistribution.js');
 const NegativeBinomialDistribution = require('./distributions/negativeBinomialDistribution.js');
+const ShiftOperations = require("./ShiftOperations.js")
 // const DirichletDistribution = require('./distributions/dirichletDistribution.js');
 
 // Distribution Classes
@@ -23,33 +24,47 @@ const logDistribution = new LogDistribution();
 const logNormalDistribution = new LogNormalDistribution();
 const betaDistribution = new BetaDistribution();
 const negativeBinomialDistribution = new NegativeBinomialDistribution();
+const shiftOperations = new ShiftOperations();
 // const dirichletDistribution = new DirichletDistribution();
 
 // Generate Test Data
-const normalTestData = normalDistribution.generateData(size=1000);
-const binomialTestData = binomialDistribution.generateData(size=1000, numTrials=100, successProbability=0.5);
-const poissonTestData = poissonDistribution.generateData(lambda=2, size=1000);
-const exponentialTestData = exponentialDistribution.generateData(lambda=2, size=1000);
-const gammaTestData = gammaDistribution.generateData(shape=3, scale=0.3, size=1000);
-const logTestData = logDistribution.generateData(minValue=0.1, maxValue=1, size=1000);
-const logNormalTestData = logNormalDistribution.generateData(mu=0, sigma=0.25, size=1000);
-const betaTestData = betaDistribution.generateData(alpha=3, beta=0.2, size=1000);
-const negativeBinomialData = negativeBinomialDistribution.generateData(size=1000, successesRequired=5, probabilityOfSuccess=0.5);
+const normalTestData = normalDistribution.generateData(size=100);
+const binomialTestData = binomialDistribution.generateData(size=100, numTrials=100, successProbability=0.5);
+const poissonTestData = poissonDistribution.generateData(lambda=2, size=100);
+const exponentialTestData = exponentialDistribution.generateData(lambda=2, size=100);
+const gammaTestData = gammaDistribution.generateData(shape=5, scale=0.5, size=100);
+const logTestData = logDistribution.generateData(minValue=0.1, maxValue=1, size=100);
+const logNormalTestData = logNormalDistribution.generateData(mu=0, sigma=0.25, size=100);
+const betaTestData = betaDistribution.generateData(alpha=3, beta=0.2, size=100);
+const negativeBinomialData = negativeBinomialDistribution.generateData(size=100, successesRequired=5, probabilityOfSuccess=0.5);
 
-const testData = gammaTestData;
+const testData = binomialTestData;
+const addMean = shiftOperations.addMean(testData);
+const subMean = shiftOperations.subMean(testData);
+const multiplyMean = shiftOperations.multiplyMean(testData);
+const divMean = shiftOperations.divideMean(testData);
+const standard = shiftOperations.standarize(testData);
 
-const chiSquare = new ChiSquare(testData, {
-            "Normal Distribution": normalDistribution.convertToNormalDistribution(testData),
-            "Binomial Distribution": binomialDistribution.convertToBinomialDistribution(testData),
-            "Poisson Distribution": poissonDistribution.convertToPoissonDistribution(testData),
-            "Exponential Distribution": exponentialDistribution.convertToExponentialDistribution(testData),
-            "Gamma Distribution": gammaDistribution.convertToGammaDistribution(testData),
-            "Log Distribution": logDistribution.convertToLogDistribution(testData),
-            "Log Normal Distribution": logNormalDistribution.convertToLogNormalDistribution(testData),
-            "Beta Distribution": betaDistribution.convertToBetaDistribution(testData),
-            "Negative Binomial Distribution": negativeBinomialDistribution.convertToNegativeBinomialDistribution(testData, 5, 0.5)
-        });
+// console.log(testData);
 
-const chiSquareRanks = chiSquare.calculate();
+const chiSquare = new ChiSquare();
 
-console.log(chiSquareRanks);
+const chiSquareRankings = {
+            "Normal Distribution add mean": chiSquare.calculateChiSquare(normalDistribution, testData),
+            "Normal Distribution sub mean": chiSquare.calculateChiSquare(normalDistribution, addMean),
+            "Normal Distribution multiply mean": chiSquare.calculateChiSquare(normalDistribution, subMean),
+            "Normal Distribution divide mean": chiSquare.calculateChiSquare(normalDistribution, multiplyMean),
+            "Normal Distribution standard": chiSquare.calculateChiSquare(normalDistribution, divMean),
+            "Normal Distribution standard": chiSquare.calculateChiSquare(normalDistribution, standard),
+
+            // "Binomial Distribution": chiSquare.calculateChiSquare(binomialDistribution, testData),
+            ////"Poisson Distribution": chiSquare.calculateChiSquare(poissonDistribution, testData),
+            ////"Exponential Distribution": chiSquare.calculateChiSquare(exponentialDistribution, testData),
+            ////"Gamma Distribution": chiSquare.calculateChiSquare(gammaDistribution, testData),
+            // "Log Distribution": chiSquare.calculateChiSquare(logDistribution, testData),
+            ////"Log Normal Distribution": chiSquare.calculateChiSquare(logNormalDistribution, testData),
+            // "Beta Distribution": chiSquare.calculateChiSquare(betaDistribution, testData),
+            // "Negative Binomial Distribution": chiSquare.calculateChiSquare(negativeBinomialDistribution, testData),
+        };
+
+console.log(chiSquareRankings);
