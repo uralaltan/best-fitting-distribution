@@ -3,16 +3,16 @@ Documentation of Distribution Calculations
 
 ## Shift, Standarize operations
 
-After calculation the chi square error for normal data, data added after mean, data after subtracted mean, data after multiplied by mean, data after divided by mean, data after standardized. The results are below.\
-It seems to me the data gives significantly better score after being divided by the mean. Maybe we should divide the data by mean before converting it? \
+After calculation the chi square error for normal data, data added after mean, data after subtracted mean, data after multiplied by 2, data after divided by 2, data after standardized. The results are below.\
+It seems data gives significantly better score after being divided. Maybe we should divide the data by mean before converting it? \
 
 {\
-&ensp;  'Normal Distribution normal': 6813631.835438798,\
-&ensp;  'Normal Distribution add mean': 26850449.91173784,\
-&ensp;  'Normal Distribution sub mean': 150640.91167116511,\
-&ensp;  'Normal Distribution multiply mean': 6813631.835438798,\
-&ensp;  'Normal Distribution divide mean': 130.11088132908645,\
-&ensp;  'Normal Distribution standard': 2.41744021535422e+21\
+&ensp;  'Normal Distribution normal': 1139.928487878587,\
+&ensp;  'Normal Distribution shifted right by mean': 1134.7289357313784,\
+&ensp;  'Normal Distribution shifted left by mean': 1145.7478635447671,\
+&ensp;  'Normal Distribution scaled up by 2': 8925.189026196753,\
+&ensp;  'Normal Distribution divided by 2': 196.50392988419878,\
+&ensp;  'Normal Distribution standard': 1346.029349980286\
 }
 
 
