@@ -11,7 +11,7 @@ const LogDistribution = require('./distributions/logDistribution.js');
 const LogNormalDistribution = require('./distributions/logNormalDistribution.js');
 const BetaDistribution = require('./distributions/betaDistribution.js');
 const NegativeBinomialDistribution = require('./distributions/negativeBinomialDistribution.js');
-const ShiftOperations = require("./ShiftOperations.js")
+const Filter = require("./Filter.js")
 // const DirichletDistribution = require('./distributions/dirichletDistribution.js');
 
 // Distribution Classes
@@ -24,7 +24,7 @@ const logDistribution = new LogDistribution();
 const logNormalDistribution = new LogNormalDistribution();
 const betaDistribution = new BetaDistribution();
 const negativeBinomialDistribution = new NegativeBinomialDistribution();
-const shiftOperations = new ShiftOperations();
+const filter = new Filter();
 // const dirichletDistribution = new DirichletDistribution();
 
 // Generate Test Data
@@ -39,22 +39,22 @@ const betaTestData = betaDistribution.generateData(alpha=3, beta=0.2, size=100);
 const negativeBinomialData = negativeBinomialDistribution.generateData(size=100, successesRequired=5, probabilityOfSuccess=0.5);
 
 const testData = binomialTestData;
-const addMean = shiftOperations.addMean(testData);
-const subMean = shiftOperations.subMean(testData);
-const multiplyMean = shiftOperations.multiplyMean(testData);
-const divMean = shiftOperations.divideMean(testData);
-const standard = shiftOperations.standarize(testData);
+const addMean = filter.addMean(testData);
+const subMean = filter.subMean(testData);
+const multiplyMean = filter.multiplyMean(testData);
+const divMean = filter.divideMean(testData);
+const standard = filter.standarize(testData);
 
 // console.log(testData);
 
 const chiSquare = new ChiSquare();
 
 const chiSquareRankings = {
-            "Normal Distribution add mean": chiSquare.calculateChiSquare(normalDistribution, testData),
-            "Normal Distribution sub mean": chiSquare.calculateChiSquare(normalDistribution, addMean),
-            "Normal Distribution multiply mean": chiSquare.calculateChiSquare(normalDistribution, subMean),
-            "Normal Distribution divide mean": chiSquare.calculateChiSquare(normalDistribution, multiplyMean),
-            "Normal Distribution standard": chiSquare.calculateChiSquare(normalDistribution, divMean),
+            "Normal Distribution normal": chiSquare.calculateChiSquare(normalDistribution, testData),
+            "Normal Distribution add mean": chiSquare.calculateChiSquare(normalDistribution, addMean),
+            "Normal Distribution sub mean": chiSquare.calculateChiSquare(normalDistribution, subMean),
+            "Normal Distribution multiply mean": chiSquare.calculateChiSquare(normalDistribution, multiplyMean),
+            "Normal Distribution divide mean": chiSquare.calculateChiSquare(normalDistribution, divMean),
             "Normal Distribution standard": chiSquare.calculateChiSquare(normalDistribution, standard),
 
             // "Binomial Distribution": chiSquare.calculateChiSquare(binomialDistribution, testData),
