@@ -1,5 +1,5 @@
 // Chi Square Test
-const ChiSquare = require('./chiSquareTest.js');
+const ChiSquare = require('./ChiSquare.js');
 
 // Distributions
 const NormalDistribution = require('./distributions/normalDistribution.js');
@@ -15,14 +15,14 @@ const NegativeBinomialDistribution = require('./distributions/negativeBinomialDi
 
 // Distribution Classes
 const normalDistribution = new NormalDistribution();
-const binomialDistribution = new BinomialDistribution(numTrials=100, successProbability=0.5);
+const binomialDistribution = new BinomialDistribution();
 const poissonDistribution = new PoissonDistribution();
 const exponentialDistribution = new ExponentialDistribution();
 const gammaDistribution = new GammaDistribution();
 const logDistribution = new LogDistribution();
 const logNormalDistribution = new LogNormalDistribution();
 const betaDistribution = new BetaDistribution();
-const negativeBinomialDistribution = new NegativeBinomialDistribution(successesRequired=5, probabilityOfSuccess=0.5);
+const negativeBinomialDistribution = new NegativeBinomialDistribution();
 // const dirichletDistribution = new DirichletDistribution();
 
 const express = require('express');
@@ -40,27 +40,31 @@ then our api returns the distributions and their scores in json format */
 // You can test the api via shell with "npm run start"
 
 app.post('/evaluate', (req, res) => {
+
   const userData = req.body;
+
+  const chiSquare = new ChiSquare();
+
 
   if (!userData || !userData.data || !Array.isArray(userData.data)) {
     res.status(400).json({ error: 'Invalid request format' });
     return;
   }
 
-  const testData = userData.data; 
+  const observed = userData.data;
 
-  const result = new ChiSquare(testData, {
-    "Normal Distribution": normalDistribution.convertToNormalDistribution(testData),
-    "Binomial Distribution": binomialDistribution.convertToBinomialDistribution(testData),
-    "Poisson Distribution": poissonDistribution.convertToPoissonDistribution(testData),
-    "Exponential Distribution": exponentialDistribution.convertToExponentialDistribution(testData),
-    "Gamma Distribution": gammaDistribution.convertToGammaDistribution(testData),
-    "Log Distribution": logDistribution.convertToLogDistribution(testData),
-    "Log Normal Distribution": logNormalDistribution.convertToLogNormalDistribution(testData),
-    "Beta Distribution": betaDistribution.convertToBetaDistribution(testData),
-    "Negative Binomial Distribution": negativeBinomialDistribution.convertToNegativeBinomialDistribution(testData)
-  }).calculate();
+  const chiSquareRankings = {
+    "Normal Distribution": chiSquare.calculateChiSquare(normalDistribution, observed),
+    // "Binomial Distribution": chiSquare.calculateChiSquare(binomialDistribution, observed),
+    "Poisson Distribution": chiSquare.calculateChiSquare(poissonDistribution, observed),
+    "Exponential Distribution": chiSquare.calculateChiSquare(exponentialDistribution, observed),
+    // "Gamma Distribution": chiSquare.calculateChiSquare(gammaDistribution, observed),
+    // "Log Distribution": chiSquare.calculateChiSquare(logDistribution, observed),
+    "Log Normal Distribution": chiSquare.calculateChiSquare(logNormalDistribution, observed),
+    // "Beta Distribution": chiSquare.calculateChiSquare(betaDistribution, observed),
+    // "Negative Binomial Distribution": chiSquare.calculateChiSquare(negativeBinomialDistribution, observed),
+  };
 
-  res.json({ result: result });
+  res.json({ result: chiSquareRankings });
 
 });
