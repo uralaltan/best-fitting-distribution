@@ -2,15 +2,10 @@ const Math = require("mathjs");
 const Distribution = require('../distribution.js');
 
 class LogDistribution extends Distribution {
-    convertToLogDistribution = (data, probability = 0.5) => {
-        return data.map((x) => {
-            if (x === 1) {
-                return -Math.log(1 - probability);
-            } else {
-                return Math.pow(-Math.log(1 - probability), x - 1) * (-Math.log(1 - probability));
-            }
-        });
-    };
+    // What is log distribution =?
+    convert(data){
+        return data;
+    }
   
     generateData = (minValue, maxValue, size) => {
         const data = [];
@@ -25,17 +20,5 @@ class LogDistribution extends Distribution {
         return data;
     }
 }
-
-/*
-
-const logDistribution = new LogDistribution();
-
-const generatedData = logDistribution.generateData(minValue=0.1, maxValue=10, size=50);
-const convertedData = logDistribution.convertToLogDistribution(generatedData);
-
-console.log(generatedData);
-console.log(convertedData);
-
-*/
 
 module.exports = LogDistribution;

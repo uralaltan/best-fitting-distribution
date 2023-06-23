@@ -1,8 +1,11 @@
 const Math = require("mathjs");
 const Distribution = require('../distribution.js');
+const { jStat } = require("jstat");
 
 class LogNormalDistribution extends Distribution {
-    convertToLogNormalDistribution(data) {
+    
+    // needs a double-check!
+    convert(data) {
         const logData = data.map((x) => Math.log(x));
         const meanLog = logData.reduce((acc, val) => acc + val, 0) / logData.length;
         const stdDevLog = Math.sqrt(
@@ -19,35 +22,14 @@ class LogNormalDistribution extends Distribution {
         return expected;
     }
 
-    generateData(mu, sigma, size) {
-        const data = [];
-        for (let i = 0; i < size; i++) {
-            const randomValue = Math.exp(mu + sigma * this.randomNormalDistribution());
-            data.push(randomValue);
+    generateData(mu, sigma, size) {       
+        var randomArray = [];
+        for (var i = 0; i < size; i++) {
+            var randomNum = jStat.lognormal.sample(mu, sigma);
+            randomArray.push(randomNum);
         }
-        return data;
-    }
-    
-    randomNormalDistribution() {
-        let u = 0, v = 0;
-        while (u === 0) u = Math.random(); // Ensure u is not zero
-        while (v === 0) v = Math.random(); // Ensure v is not zero
-    
-        const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.pi * v);
-        return z;
+        return randomArray;
     }
 }
-
-/*
-
-const logNormalDistribution = new LogNormalDistribution();
-
-const generatedData = logNormalDistribution.generateData(mu=0, sigma=0.25, size=50);
-const convertedData = logNormalDistribution.convertToLogNormalDistribution(generatedData);
-
-console.log(generatedData);
-console.log(convertedData);
-
-*/
 
 module.exports = LogNormalDistribution;
