@@ -5,60 +5,60 @@ Documentation of Distribution Calculations
 
 These are chi-square scores lower is better
 
-Normal Test Data
-{
-  'Normal Distribution': 2115.4603315820277,
-  'Poisson Distribution': 42785.94134999442,
-  'Exponential Distribution': 1.3591880934979865e+24,
-  'Gamma Distribution': NaN,
-  'Log Normal Distribution': NaN,
-  'Beta Distribution': 418.4234957342457
-}
-Poisson Test Data
-{
-  'Normal Distribution': 5058.295814521533,
-  'Poisson Distribution': 4211.908019911595,
-  'Exponential Distribution': 5404.793862366643,
-  'Gamma Distribution': NaN,
-  'Log Normal Distribution': NaN,
-  'Beta Distribution': 693.930506861638
-}
-Exponential Test Data
-{
-  'Normal Distribution': 485.9261978751559,
-  'Poisson Distribution': 84.66745599627026,
-  'Exponential Distribution': 223.97736416013123,
-  'Gamma Distribution': 462.4524035134516,
-  'Log Normal Distribution': 250.08070137910877,
-  'Beta Distribution': 102.83147595145354
-}
-Gamma Test Data
-{
-  'Normal Distribution': 8553.561032529491,
-  'Poisson Distribution': 134.37126372134603,
-  'Exponential Distribution': 242.70564069675513,
-  'Gamma Distribution': NaN,
-  'Log Normal Distribution': 323.83501411977693,
-  'Beta Distribution': 57.55080592059839
-}
-Log-normal Test Data
-{
-  'Normal Distribution': 588.9484344520743,
-  'Poisson Distribution': 147.54590642670382,
-  'Exponential Distribution': 226.84527683815548,
-  'Gamma Distribution': 8524.992674315812,
-  'Log Normal Distribution': 178.17181153362895,
-  'Beta Distribution': 8.072729865093246
-}
-Beta Test Data
-{
-  'Normal Distribution': 653.6614785266495,
-  'Poisson Distribution': 91.22519586665742,
-  'Exponential Distribution': 85.88809483031507,
-  'Gamma Distribution': 10292.922288164318,
-  'Log Normal Distribution': 8526.273368070748,
-  'Beta Distribution': 4.636554842855612
-}
+Normal Test Data\
+{\
+  'Normal Distribution': 2115.4603315820277,\
+  'Poisson Distribution': 42785.94134999442,\
+  'Exponential Distribution': 1.3591880934979865e+24,\
+  'Gamma Distribution': NaN,\
+  'Log Normal Distribution': NaN,\
+  'Beta Distribution': 418.4234957342457\
+}\
+Poisson Test Data\
+{\
+  'Normal Distribution': 5058.295814521533,\
+  'Poisson Distribution': 4211.908019911595,\
+  'Exponential Distribution': 5404.793862366643,\
+  'Gamma Distribution': NaN,\
+  'Log Normal Distribution': NaN,\
+  'Beta Distribution': 693.930506861638\
+}\
+Exponential Test Data\
+{\
+  'Normal Distribution': 485.9261978751559,\
+  'Poisson Distribution': 84.66745599627026,\
+  'Exponential Distribution': 223.97736416013123,\
+  'Gamma Distribution': 462.4524035134516,\
+  'Log Normal Distribution': 250.08070137910877,\
+  'Beta Distribution': 102.83147595145354\
+}\
+Gamma Test Data\
+{\
+  'Normal Distribution': 8553.561032529491,\
+  'Poisson Distribution': 134.37126372134603,\
+  'Exponential Distribution': 242.70564069675513,\
+  'Gamma Distribution': NaN,\
+  'Log Normal Distribution': 323.83501411977693,\
+  'Beta Distribution': 57.55080592059839\
+}\
+Log-normal Test Data\
+{\
+  'Normal Distribution': 588.9484344520743,\
+  'Poisson Distribution': 147.54590642670382,\
+  'Exponential Distribution': 226.84527683815548,\
+  'Gamma Distribution': 8524.992674315812,\
+  'Log Normal Distribution': 178.17181153362895,\
+  'Beta Distribution': 8.072729865093246\
+}\
+Beta Test Data\
+{\
+  'Normal Distribution': 653.6614785266495,\
+  'Poisson Distribution': 91.22519586665742,\
+  'Exponential Distribution': 85.88809483031507,\
+  'Gamma Distribution': 10292.922288164318,\
+  'Log Normal Distribution': 8526.273368070748,\
+  'Beta Distribution': 4.636554842855612\
+}\
 
 ## Shift, Standarize operations
 
