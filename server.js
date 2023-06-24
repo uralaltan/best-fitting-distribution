@@ -1,31 +1,7 @@
-// Chi Square Test
-const ChiSquare = require('./ChiSquare.js');
-
-// Distributions
-const NormalDistribution = require('./distributions/normalDistribution.js');
-const BinomialDistribution = require('./distributions/binomialDistribution.js');
-const PoissonDistribution = require('./distributions/poissonDistribution.js');
-const ExponentialDistribution = require('./distributions/exponentialDistribution.js');
-const GammaDistribution = require('./distributions/gammaDistribution.js');
-const LogDistribution = require('./distributions/logDistribution.js');
-const LogNormalDistribution = require('./distributions/logNormalDistribution.js');
-const BetaDistribution = require('./distributions/betaDistribution.js');
-const NegativeBinomialDistribution = require('./distributions/negativeBinomialDistribution.js');
-// const DirichletDistribution = require('./distributions/dirichletDistribution.js');
-
-// Distribution Classes
-const normalDistribution = new NormalDistribution();
-const binomialDistribution = new BinomialDistribution();
-const poissonDistribution = new PoissonDistribution();
-const exponentialDistribution = new ExponentialDistribution();
-const gammaDistribution = new GammaDistribution();
-const logDistribution = new LogDistribution();
-const logNormalDistribution = new LogNormalDistribution();
-const betaDistribution = new BetaDistribution();
-const negativeBinomialDistribution = new NegativeBinomialDistribution();
-// const dirichletDistribution = new DirichletDistribution();
-
+// KS Test
+const KS = require('./KSTest.js');
 const express = require('express');
+
 const app = express();
 const PORT = 3000;
 
@@ -43,7 +19,7 @@ app.post('/evaluate', (req, res) => {
 
   const userData = req.body;
 
-  const chiSquare = new ChiSquare();
+  const ks = new KS();
 
 
   if (!userData || !userData.data || !Array.isArray(userData.data)) {
@@ -53,18 +29,26 @@ app.post('/evaluate', (req, res) => {
 
   const observed = userData.data;
 
-  const chiSquareRankings = {
-    "Normal Distribution": chiSquare.calculateChiSquare(normalDistribution, observed),
-    // "Binomial Distribution": chiSquare.calculateChiSquare(binomialDistribution, observed),
-    "Poisson Distribution": chiSquare.calculateChiSquare(poissonDistribution, observed),
-    "Exponential Distribution": chiSquare.calculateChiSquare(exponentialDistribution, observed),
-    // "Gamma Distribution": chiSquare.calculateChiSquare(gammaDistribution, observed),
-    // "Log Distribution": chiSquare.calculateChiSquare(logDistribution, observed),
-    "Log Normal Distribution": chiSquare.calculateChiSquare(logNormalDistribution, observed),
-    // "Beta Distribution": chiSquare.calculateChiSquare(betaDistribution, observed),
-    // "Negative Binomial Distribution": chiSquare.calculateChiSquare(negativeBinomialDistribution, observed),
+  const KSTestScores = {
+    "Normal Distribution": ks.normal(observed),
+    "Poisson Distribution": ks.poisson(observed),
+    "Exponential Distribution": ks.exponential(observed),
+    "Gamma Distribution": ks.gamma(observed),
+    "Log Normal Distribution": ks.lognormal(observed),
+    "Beta Distribution": ks.beta(observed),
   };
+  
+  const scaledTestScores = {};
 
-  res.json({ result: chiSquareRankings });
+  const maxOriginalValue = Math.max(...Object.values(KSTestScores));
+  const minOriginalValue = Math.min(...Object.values(KSTestScores));
+  const range = maxOriginalValue - minOriginalValue;
+
+  for (const [key, value] of Object.entries(KSTestScores)) {
+  const scaledValue = 100 - ((value - minOriginalValue) / range) * 100;
+  scaledTestScores[key] = scaledValue;
+  }
+
+  res.json({ result: scaledTestScores });
 
 });
