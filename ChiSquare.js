@@ -8,7 +8,7 @@ class ChiSquare {
             chiSquare += Math.pow(observed[i] - expected[i], 2) / expected[i];
         }
         if (returnExpected) {
-          return expected, chiSquare;
+          return [expected, chiSquare];
         }
         return chiSquare;
     }
