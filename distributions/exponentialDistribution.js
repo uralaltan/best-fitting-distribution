@@ -3,26 +3,42 @@ const { jStat } = require("jstat");
 const Distribution = require('../distribution.js');
 
 class ExponentialDistribution extends Distribution {
-    // Needs a double-check!
-    convert(data) {
 
-        const mean = data.reduce((a, b) => a + b, 0) / data.length; // calculates mean of data
-        const lambda = 1 / mean;
+    convert = (data, lambda=2) => {
+    
+        const simpleLinearTransformation = (data) => {
+            const minValue = Math.min(...data);
+            const maxValue = Math.max(...data);
 
-        const convertedData = data.map((value) => lambda * Math.exp(-lambda * value));
+            const scaledData = data.map((value) => {
+                return ((value - minValue) / (maxValue - minValue)) * 2;
+            });
 
-        return convertedData;
+            return scaledData;
+        }
+        
+        const scaledData = simpleLinearTransformation(data);
+
+        const poissonData = scaledData.map((value) => {
+            if (value < 0) {
+                return 0;
+            }
+            return (lambda * Math.exp(-lambda * value));
+        });
+        
+        return poissonData;
     }
 
-    generateData(lambda, size) {
-        var randomArray = [];
-        for (var i = 0; i < size; i++) {
-            var randomNum = jStat.exponential.sample(lambda);
-            randomArray.push(randomNum);
+    generateData = (size, lambda=2) => {
+
+        const data = [];
+        for (let i = 0; i < size; i++) {
+            const sampleData = jStat.exponential.sample(lambda);
+            data.push(sampleData);
         }
-        return randomArray;
+
+        return data;
     }
 }
-
 
 module.exports = ExponentialDistribution;
