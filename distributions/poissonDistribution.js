@@ -4,35 +4,51 @@ const Distribution = require('../distribution.js');
 
 class PoissonDistribution extends Distribution {
 
-    convert(data) {
+    convert = (data) => {
+    
+        const simpleLinearIntegerTransformation = (data, minRange=0, maxRange=12) => {
+
+            // Scale the data to given min-max range
+            const scaledData = data.map((value) => {
+                return ((value - Math.min(...data)) / (Math.max(...data) - Math.min(...data))) * (maxRange - minRange) + minRange;
+            });
+            
+            // Transform the data to integers
+            const integerData = scaledData.map((value) => {
+                return Math.round(value);
+            });
+            
+            return integerData;
+        }
+
+        const scaledData = simpleLinearIntegerTransformation(data);
+
+        /*
+
+        // Using mean as estimated lambda value
+        const lambda = data.reduce((a, b) => a + b, 0) / data.length; 
         
-        const factorial = (n) => {
-            if (n === 0 || n === 1) {
-              return 1;
-            } else {
-              let result = 1;
-              for (let i = 2; i <= n; i++) {
-                result *= i;
-              }
-              return result;
-            }
-          }
-    
-        const lambda = data.reduce((a, b) => a + b, 0) / data.length; // calculates mean of data
-    
-        const convertedData = data.map((k) => Math.exp(-lambda) * Math.pow(lambda, k) / factorial(k));
+        // Output according to the poisson distribution formula
+        const poissonData = scaledData.map((k) => Math.exp(-lambda) * Math.pow(lambda, k) / Math.factorial(k));
 
-        return convertedData;
+        // For future development
+        // Check if Math.factorial(k) is Infinity
+        // If it is return 0
 
+        */
+
+        return scaledData;
     }
 
-    generateData(lambda, size) {       
-      var randomArray = [];
-      for (var i = 0; i < size; i++) {
-          var randomNum = jStat.poisson.sample(lambda);
-          randomArray.push(randomNum);
-      }
-      return randomArray;;
+    generateData = (size, lambda=2) => {
+
+        const data = [];
+        for (let i = 0; i < size; i++) {
+            const sampleData = jStat.poisson.sample(lambda);
+            data.push(sampleData);
+        }
+
+        return data;;
     }
 }
 
