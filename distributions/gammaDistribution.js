@@ -4,46 +4,57 @@ const Distribution = require('../distribution.js');
 
 class GammaDistribution extends Distribution {
     
-    // might comeback to this but looks solid for now.
-    convert(data) {
+    convert = (data, returnOutput=false) => {
 
-        const mean = data.reduce((sum, value) => sum + value, 0) / data.length;
-        const variance = data.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / data.length;
+        const simpleLinearTransformation = (data, minRange=0.1, maxRange=15.5) => {
 
-        const alpha = mean * ((mean * (1 - mean)) / variance - 1);
-        const beta = (1 - mean) * ((mean * (1 - mean)) / variance - 1);
+            // Scale the data to given min-max range
+            const scaledData = data.map((value) => {
+                return ((value - Math.min(...data)) / (Math.max(...data) - Math.min(...data))) * (maxRange - minRange) + minRange;
+            });
 
-        const shape = alpha; 
-        const scale = 1/beta;
+            return scaledData;
+        }
 
         const factorial = (n) => {
-                    if (n === 0 || n === 1) {
-                    return 1;
-                    } else {
-                    let result = 1;
-                    for (let i = 2; i <= n; i++) {
-                        result *= i;
-                    }
-                    return result;
-                   }
-                }
+            if (n <= 1) {
+                return 1;
+            }
+            return n * factorial(n - 1);
+        };
+
+        const scaledData = simpleLinearTransformation(data);
+
+        if (returnOutput) {
+
+            // Calculate gamma distribution
+            const mean = scaledData.reduce((sum, value) => sum + value, 0) / scaledData.length;
+            const variance = scaledData.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / scaledData.length;
+
+            const alpha = Math.pow(mean, 2) / variance;
+            const beta = mean / variance;
+            
+            // const shape = alpha; 
+            // const scale = 1 / beta;
         
-        const expected = data.map((x) => {
-            return (Math.pow(x, shape - 1) * Math.exp(-x / scale)) /
-                   (Math.pow(scale, shape) * factorial(shape - 1));
-        });
+            const gammaData = scaledData.map(value => Math.gamma(alpha) * Math.pow(beta, alpha) * Math.pow(value, alpha - 1) * Math.exp(-beta * value));
 
-        return expected;
-
-    }
-  
-    generateData(shape, scale, size) {
-        var randomArray = [];
-        for (var i = 0; i < size; i++) {
-            var randomNum = jStat.gamma.sample(shape, scale);
-            randomArray.push(randomNum);
+            return gammaData;
         }
-        return randomArray;
+
+        // Return converted gamma distribution data
+        return scaledData;
+    }
+
+    generateData = (size, shape, scale) => {
+
+        const data = [];
+        for (let i = 0; i < size; i++) {
+            const sampleData = jStat.gamma.sample(shape, scale);
+            data.push(sampleData);
+        }
+
+        return data;
     }
 }
 
