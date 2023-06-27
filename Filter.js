@@ -1,3 +1,5 @@
+const Math = require("mathjs");
+
 class Filter{
 
     removeOutliers(data) {
@@ -21,6 +23,17 @@ class Filter{
     const filteredData = data.filter((value) => value >= lowerBound && value <= upperBound);
   
     return filteredData;
+  }
+
+  minMax(data) {
+    var minValue = Math.min(...data);
+    var maxValue = Math.max(...data);
+  
+    var scaledData = data.map((value) => {
+      return (value - minValue) / (maxValue - minValue);
+    });
+  
+    return scaledData;
   }
 
   shiftDistribution(data, shiftAmount){
