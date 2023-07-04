@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Plotly Example</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h1 class="text-center"> Merhaba, Distribution projesine hoşgeldiniz! </h1>
+  <!-- plot id'yi referans alıp bunun içine plot ediyoruz -->
+  <div class="row">
+    <div class="col">
+      <div id="plot1" style="width: 600px; height: 250px;"></div>
+    </div>
+    <div class="col">
+      <div id="plot2" style="width: 600px; height: 250px;"></div>
+    </div>
+  </div>
+
+  
+  <script>
+    // Ilk grafik
+    var x1 = [];
+    for (var i = 0; i < 500; i++) {
+      x1[i] = Math.random();
+    }
+    var trace1 = {
+      x: x1,
+      type: 'histogram',
+    };
+    var data1 = [trace1];
+    Plotly.newPlot('plot1', data1);
+
+    // Ikinci grafik
+    var x2 = [];
+    for (var i = 0; i < 500; i++) {
+      x2[i] = Math.random();
+    }
+    var trace2 = {
+      x: x2,
+      type: 'histogram',
+    };
+    var data2 = [trace2];
+    Plotly.newPlot('plot2', data2);
+  </script>
+  
+
+</body>
+</html>
