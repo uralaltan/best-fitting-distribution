@@ -1,7 +1,7 @@
 const NormalDistribution = require("./distributions/NormalDistribution");
-const ExponentialDistribution = require("./distributions/BetaDistribution");
-const GammaDistribution = require("./distributions/BetaDistribution");
-const LogNormalDistribution = require("./distributions/BetaDistribution");
+const ExponentialDistribution = require("./distributions/ExponentialDistribution");
+const GammaDistribution = require("./distributions/GammaDistribution");
+const LogNormalDistribution = require("./distributions/LogNormalDistribution");
 const BetaDistribution = require("./distributions/BetaDistribution");
 
 const ChiSquare = require('./StatTest/ChiSquare');
@@ -32,44 +32,52 @@ class Scorer {
     }
 
     calculateScore = (data) => {
-
+        
         const parameters = this.estimator.estimateParameters(data);
 
-        const length = parameters['length'];
-        const mean = parameters['mean'];
-        const variance = parameters['variance'];
-        const alpha = parameters['alpha'];
-        const beta = parameters['beta'];
-        const lambda = parameters['lambda'];
-        const shape = parameters['shape'];
-        const scale = parameters['scale'];
-        const mu = parameters['mu'];
-        const sigma = parameters['sigma'];
-
         const testDatas = {
-            "Normal Distribution": this.normal.generateData(length, mean, variance),
-            "Exponential Distribution": this.exponential.generateData(length, lambda),
-            "Gamma Distribution": this.gamma.generateData(length, shape, scale),
-            "Log Normal Distribution": this.logNormal.generateData(length, mu, sigma),
-            "Beta Distribution": this.beta.generateData(length, alpha, beta),
-        }
-        
+          "Normal Distribution": this.normal.generateData(
+            parameters.length,
+            parameters.mean,
+            parameters.variance
+          ),
+          "Exponential Distribution": this.exponential.generateData(
+            parameters.length,
+            parameters.lambda
+          ),
+          "Gamma Distribution": this.gamma.generateData(
+            parameters.length,
+            parameters.shape,
+            parameters.scale
+          ),
+          "Log Normal Distribution": this.logNormal.generateData(
+            parameters.length,
+            parameters.mu,
+            parameters.sigma
+          ),
+          "Beta Distribution": this.beta.generateData(
+            parameters.length,
+            parameters.alpha,
+            parameters.beta
+          ),
+        };
+      
         const scaledData = this.filter.scaleArray(data);
-
+      
         const chiSquareResults = this.chiSquare.calculateBestFitScore(scaledData, testDatas);
         const maeResults = this.mae.calculateBestFitScore(scaledData, testDatas);
         const mseResults = this.mse.calculateBestFitScore(scaledData, testDatas);
         const rmseResults = this.rmse.calculateBestFitScore(scaledData, testDatas);
-    
+      
         const scores = {
-            "Chi Square Results": chiSquareResults,
-            "MAE Results": maeResults,
-            "MSE Results": mseResults,
-            "RMSE Results": rmseResults,
-        }
-
+          "Chi Square Results": chiSquareResults,
+          "MAE Results": maeResults,
+          "MSE Results": mseResults,
+          "RMSE Results": rmseResults,
+        };
+      
         return scores;
-    }
+      }                
 }
 
 module.exports = Scorer;
