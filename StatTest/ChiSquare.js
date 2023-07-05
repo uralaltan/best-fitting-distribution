@@ -12,7 +12,7 @@ class ChiSquare {
         var chiSquare = 0
         
         for (let i = 0; i < data.length; i++) {
-            chiSquare += Math.pow(data[i] - expected[i], 2) / expected[i];
+            chiSquare += Math.pow(data[i] - expected[i], 2) / (expected[i] + 0.0001);
         }
 
         if (chiSquare <= 0) {
@@ -22,24 +22,26 @@ class ChiSquare {
         return chiSquare;
     }
 
-    addRanksAndPercantage = (chiSquareResults) => {
+    // bug sebebi !!!
+    // addRanksAndPercantage = (chiSquareResults) => {
 
-        const lowestScore = Math.min(...chiSquareResults.map((entry) => entry[1]));
+    //     const lowestScore = Math.min(...chiSquareResults.map((entry) => entry[1]));
 
-        const scores = chiSquareResults.map((entry) => {
+    //     const scores = chiSquareResults.map((entry) => {
 
-            const score = (lowestScore / entry[1] * 100);
+    //         const score = (lowestScore / entry[1] * 100);
 
-            return [entry[0], score]; 
-        });
+    //         return [entry[0], score]; 
+    //     });
       
-        return scores;
-    }
+    //     return scores;
+    // }
 
     calculateBestFitScore = (data, testDatas) => {
 
         const chiSquareResults = {};
 
+        // correct loop
         for (const testDataName in testDatas) {
             const scaledData = this.filter.scaleArray(testDatas[testDataName]);
             const score = this.calculateChiSquare(data, scaledData);
@@ -49,9 +51,10 @@ class ChiSquare {
         const sortedChiSquare = Object.entries(chiSquareResults);
         sortedChiSquare.sort((a, b) => a[1] - b[1]);
 
-        const scores = this.addRanksAndPercantage(sortedChiSquare);
+        // // hata 
+        // const scores = this.addRanksAndPercantage(sortedChiSquare);
 
-        return scores
+        return sortedChiSquare
     }
 }
 

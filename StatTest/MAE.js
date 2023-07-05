@@ -20,19 +20,19 @@ class MAE {
         return MAE;
     }
 
-    addRanksAndPercantage = (MAEResults) => {
+    // addRanksAndPercantage = (MAEResults) => {
 
-        const lowestScore = Math.min(...MAEResults.map((entry) => entry[1]));
+    //     const lowestScore = Math.min(...MAEResults.map((entry) => entry[1]));
 
-        const scores = MAEResults.map((entry) => {
+    //     const scores = MAEResults.map((entry) => {
 
-            const score = (lowestScore / entry[1] * 100);
+    //         const score = (lowestScore / entry[1] * 100);
 
-            return [entry[0], score]; 
-        });
+    //         return [entry[0], score]; 
+    //     });
       
-        return scores;
-    }
+    //     return scores;
+    // }
 
     calculateBestFitScore = (data, testDatas) => {
 
@@ -47,9 +47,9 @@ class MAE {
         const sortedMAE = Object.entries(MAEResults);
         sortedMAE.sort((a, b) => a[1] - b[1]);
 
-        const scores = this.addRanksAndPercantage(sortedMAE);
+        // const scores = this.addRanksAndPercantage(sortedMAE);
 
-        return scores
+        return sortedMAE
     }
 }
 

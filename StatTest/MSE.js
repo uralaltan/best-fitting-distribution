@@ -20,19 +20,19 @@ class MSE {
         return MSE;
     }
 
-    addRanksAndPercantage = (MSEResults) => {
+    // addRanksAndPercantage = (MSEResults) => {
 
-        const lowestScore = Math.min(...MSEResults.map((entry) => entry[1]));
+    //     const lowestScore = Math.min(...MSEResults.map((entry) => entry[1]));
 
-        const scores = MSEResults.map((entry) => {
+    //     const scores = MSEResults.map((entry) => {
 
-            const score = (lowestScore / entry[1] * 100);
+    //         const score = (lowestScore / entry[1] * 100);
 
-            return [entry[0], score]; 
-        });
+    //         return [entry[0], score]; 
+    //     });
       
-        return scores;
-    }
+    //     return scores;
+    // }
 
     calculateBestFitScore = (data, testDatas) => {
 
@@ -47,9 +47,9 @@ class MSE {
         const sortedMSE = Object.entries(MSEResults);
         sortedMSE.sort((a, b) => a[1] - b[1]);
 
-        const scores = this.addRanksAndPercantage(sortedMSE);
+        // const scores = this.addRanksAndPercantage(sortedMSE);
 
-        return scores
+        return sortedMSE
     }
 }
 

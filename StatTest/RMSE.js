@@ -22,19 +22,19 @@ class RMSE {
         return RMSE;
     }
 
-    addRanksAndPercantage = (RMSEResults) => {
+    // addRanksAndPercantage = (RMSEResults) => {
 
-        const lowestScore = Math.min(...RMSEResults.map((entry) => entry[1]));
+    //     const lowestScore = Math.min(...RMSEResults.map((entry) => entry[1]));
 
-        const scores = RMSEResults.map((entry) => {
+    //     const scores = RMSEResults.map((entry) => {
 
-            const score = (lowestScore / entry[1] * 100);
+    //         const score = (lowestScore / entry[1] * 100);
 
-            return [entry[0], score]; 
-        });
+    //         return [entry[0], score]; 
+    //     });
       
-        return scores;
-    }
+    //     return scores;
+    // }
 
     calculateBestFitScore = (data, testDatas) => {
 
@@ -49,16 +49,10 @@ class RMSE {
         const sortedRMSE = Object.entries(RMSEResults);
         sortedRMSE.sort((a, b) => a[1] - b[1]);
 
-        const scores = this.addRanksAndPercantage(sortedRMSE);
+        // const scores = this.addRanksAndPercantage(sortedRMSE);
 
-        return scores
+        return sortedRMSE
     }
 }
-
-const rmse = new RMSE();
-
-const score = rmse.calculateBestFitScore([1,2,3], {"data": [2,3,4], "sss": [4,5,6]});
-
-console.log(score);
 
 module.exports = RMSE;
