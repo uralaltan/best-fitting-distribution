@@ -8,6 +8,7 @@ const ChiSquare = require('./StatTest/ChiSquare');
 const MAE = require('./StatTest/MAE');
 const MSE = require('./StatTest/MSE');
 const RMSE = require('./StatTest/RMSE');
+const KS = require('./StatTest/KSTest');
 
 const ParameterEstimator = require('./ParameterEstimator');
 const Filter = require('./Filter');
@@ -26,6 +27,7 @@ class Scorer {
         this.mae = new MAE();
         this.mse = new MSE();
         this.rmse = new RMSE();
+        this.ks = new KS();
 
         this.filter = new Filter();
         this.estimator = new ParameterEstimator();
@@ -68,12 +70,14 @@ class Scorer {
         const maeResults = this.mae.calculateBestFitScore(scaledData, testDatas);
         const mseResults = this.mse.calculateBestFitScore(scaledData, testDatas);
         const rmseResults = this.rmse.calculateBestFitScore(scaledData, testDatas);
-      
+        const ksResults = this.ks.calculateBestFitScore(scaledData, testDatas);
+
         const scores = {
           "Chi Square Results": chiSquareResults,
           "MAE Results": maeResults,
           "MSE Results": mseResults,
           "RMSE Results": rmseResults,
+          "KSTest Results": ksResults,
         };
       
         return scores;
