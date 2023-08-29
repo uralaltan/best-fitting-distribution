@@ -3,6 +3,8 @@ Documentation of Distribution Calculations
 
 ## Explanation of the library
 
+The library mainly uses the Singleton pattern.
+
 The library has some dependicies but the most used one is [jStat](https://jstat.github.io/)
 
 We have a ParameterEstimator.js class that gets the given array as input and returns the parameters of the array like mean, std, mu, sigma etc. We use these parameters to create data distributions.
