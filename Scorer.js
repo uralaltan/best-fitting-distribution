@@ -11,7 +11,6 @@ const RMSE = require('./StatTest/RMSE');
 const KS = require('./StatTest/KSTest');
 
 const ParameterEstimator = require('./ParameterEstimator');
-const Filter = require('./Filter');
 
 class Scorer {
 
@@ -29,7 +28,6 @@ class Scorer {
         this.rmse = new RMSE();
         this.ks = new KS();
 
-        this.filter = new Filter();
         this.estimator = new ParameterEstimator();
     }
 
@@ -63,14 +61,12 @@ class Scorer {
             parameters.beta
           ),
         };
-      
-        const scaledData = this.filter.scaleArray(data);
-      
-        const chiSquareResults = this.chiSquare.calculateBestFitScore(scaledData, testDatas);
-        const maeResults = this.mae.calculateBestFitScore(scaledData, testDatas);
-        const mseResults = this.mse.calculateBestFitScore(scaledData, testDatas);
-        const rmseResults = this.rmse.calculateBestFitScore(scaledData, testDatas);
-        const ksResults = this.ks.calculateBestFitScore(scaledData, testDatas);
+            
+        const chiSquareResults = this.chiSquare.calculateBestFitScore(data, testDatas);
+        const maeResults = this.mae.calculateBestFitScore(data, testDatas);
+        const mseResults = this.mse.calculateBestFitScore(data, testDatas);
+        const rmseResults = this.rmse.calculateBestFitScore(data, testDatas);
+        const ksResults = this.ks.calculateBestFitScore(data, testDatas);
 
         const scores = {
           "Chi Square Results": chiSquareResults,
