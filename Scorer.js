@@ -6,8 +6,6 @@ const BetaDistribution = require("./distributions/BetaDistribution");
 
 const ChiSquare = require('./StatTest/ChiSquare');
 const MAE = require('./StatTest/MAE');
-const MSE = require('./StatTest/MSE');
-const RMSE = require('./StatTest/RMSE');
 const KS = require('./StatTest/KSTest');
 
 const ParameterEstimator = require('./ParameterEstimator');
@@ -24,8 +22,6 @@ class Scorer {
 
         this.chiSquare = new ChiSquare();
         this.mae = new MAE();
-        this.mse = new MSE();
-        this.rmse = new RMSE();
         this.ks = new KS();
 
         this.estimator = new ParameterEstimator();
@@ -64,15 +60,11 @@ class Scorer {
             
         const chiSquareResults = this.chiSquare.calculateBestFitScore(data, testDatas);
         const maeResults = this.mae.calculateBestFitScore(data, testDatas);
-        const mseResults = this.mse.calculateBestFitScore(data, testDatas);
-        const rmseResults = this.rmse.calculateBestFitScore(data, testDatas);
         const ksResults = this.ks.calculateBestFitScore(data, testDatas);
 
         const scores = {
           "Chi Square Results": chiSquareResults,
           "MAE Results": maeResults,
-          "MSE Results": mseResults,
-          "RMSE Results": rmseResults,
           "KSTest Results": ksResults,
         };
       
