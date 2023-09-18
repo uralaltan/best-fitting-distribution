@@ -11,10 +11,6 @@ test('Exponential Distribution MAE Test', () => {
     expect(scorer.calculateScore(exponentialTestData)['MAE Results'][0][0]).toBe('Exponential Distribution');
 });
 
-test('Exponential Distribution RMSE Test', () => {
-    expect(scorer.calculateScore(exponentialTestData)['RMSE Results'][0][0]).toBe('Exponential Distribution');
-});
-
-test('Exponential Distribution MSE Test', () => {
-    expect(scorer.calculateScore(exponentialTestData)['MSE Results'][0][0]).toBe('Exponential Distribution');
+test('Exponential Distribution KS Test', () => {
+    expect(scorer.calculateScore(exponentialTestData)['KSTest Results'][0][0]).toBe('Exponential Distribution');
 });

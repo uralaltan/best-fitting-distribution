@@ -11,10 +11,6 @@ test('Beta Distribution MAE Test', () => {
     expect(scorer.calculateScore(betaTestData)['MAE Results'][0][0]).toBe('Beta Distribution');
 });
 
-test('Beta Distribution RMSE Test', () => {
-    expect(scorer.calculateScore(betaTestData)['RMSE Results'][0][0]).toBe('Beta Distribution');
-});
-
-test('Beta Distribution MSE Test', () => {
-    expect(scorer.calculateScore(betaTestData)['MSE Results'][0][0]).toBe('Beta Distribution');
+test('Beta Distribution KS Test', () => {
+    expect(scorer.calculateScore(betaTestData)['KSTest Results'][0][0]).toBe('Beta Distribution');
 });

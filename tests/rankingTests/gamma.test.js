@@ -11,10 +11,6 @@ test('Gamma Distribution MAE Test', () => {
     expect(scorer.calculateScore(gammaTestData)['MAE Results'][0][0]).toBe('Gamma Distribution');
 });
 
-test('Gamma Distribution RMSE Test', () => {
-    expect(scorer.calculateScore(gammaTestData)['RMSE Results'][0][0]).toBe('Gamma Distribution');
-});
-
-test('Gamma Distribution MSE Test', () => {
-    expect(scorer.calculateScore(gammaTestData)['MSE Results'][0][0]).toBe('Gamma Distribution');
+test('Gamma Distribution KS Test', () => {
+    expect(scorer.calculateScore(gammaTestData)['KSTest Results'][0][0]).toBe('Gamma Distribution');
 });

@@ -11,10 +11,6 @@ test('Log Normal Distribution MAE Test', () => {
     expect(scorer.calculateScore(logNormalTestData)['MAE Results'][0][0]).toBe('Log Normal Distribution');
 });
 
-test('Log Normal Distribution RMSE Test', () => {
-    expect(scorer.calculateScore(logNormalTestData)['RMSE Results'][0][0]).toBe('Log Normal Distribution');
-});
-
-test('Log Normal Distribution MSE Test', () => {
-    expect(scorer.calculateScore(logNormalTestData)['MSE Results'][0][0]).toBe('Log Normal Distribution');
+test('Log Normal Distribution KS Test', () => {
+    expect(scorer.calculateScore(logNormalTestData)['KSTest Results'][0][0]).toBe('Log Normal Distribution');
 });
