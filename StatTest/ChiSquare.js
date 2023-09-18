@@ -7,12 +7,12 @@ class ChiSquare {
         this.filter = new Filter();
     }
 
-    calculateChiSquare = (data, expected) => {
+    calculateChiSquare = (data, expected, eps=1e-6) => {
         
         var chiSquare = 0
         
         for (let i = 0; i < data.length; i++) {
-            chiSquare += Math.pow(data[i] - expected[i], 2) / (expected[i] + 0.0001);
+            chiSquare += Math.pow(data[i] - expected[i], 2) / (expected[i] + eps);
         }
 
         if (chiSquare <= 0) {
@@ -22,26 +22,10 @@ class ChiSquare {
         return chiSquare;
     }
 
-    // bug sebebi !!!
-    // addRanksAndPercantage = (chiSquareResults) => {
-
-    //     const lowestScore = Math.min(...chiSquareResults.map((entry) => entry[1]));
-
-    //     const scores = chiSquareResults.map((entry) => {
-
-    //         const score = (lowestScore / entry[1] * 100);
-
-    //         return [entry[0], score]; 
-    //     });
-      
-    //     return scores;
-    // }
-
     calculateBestFitScore = (data, testDatas) => {
 
         const chiSquareResults = {};
 
-        // correct loop
         for (const testDataName in testDatas) {
             const scaledData = this.filter.scaleArray(testDatas[testDataName]);
             const score = this.calculateChiSquare(data, scaledData);
@@ -50,9 +34,6 @@ class ChiSquare {
 
         const sortedChiSquare = Object.entries(chiSquareResults);
         sortedChiSquare.sort((a, b) => a[1] - b[1]);
-
-        // // hata 
-        // const scores = this.addRanksAndPercantage(sortedChiSquare);
 
         return sortedChiSquare
     }

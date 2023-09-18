@@ -51,32 +51,29 @@ class KSTest {
 
         const result = maxD <= criticalValue;
 
-        // return {
-        //     statistic: maxD,
-        //     criticalValue,
-        //     pValue: result ? 1 : 0
-        // };
-
-        return result;
+        return {
+            statistic: maxD,
+            criticalValue,
+            pValue: result ? 1 : 0
+        };
 
     }
     
     calculateBestFitScore = (data, testDatas) => {
-
         const KSResults = {};
-
+    
         for (const testDataName in testDatas) {
             const scaledData = this.filter.scaleArray(testDatas[testDataName]);
-            const score = this.calculateKS(data, scaledData);
-            KSResults[testDataName] = score;
+            const { statistic } = this.calculateKS(data, scaledData);
+            KSResults[testDataName] = statistic; // Store only the KS statistic.
         }
-
+    
         const sortedKS = Object.entries(KSResults);
-        sortedKS.sort((a, b) => a[1] - b[1]);
-
+        sortedKS.sort((a, b) => a[1] - b[1]); // Sort by the KS statistic in ascending order.
+    
         return sortedKS;
-
     }
+    
 }
 
 module.exports = KSTest;
